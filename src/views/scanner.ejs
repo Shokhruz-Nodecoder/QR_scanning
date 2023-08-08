@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        padding-top: 100px;
+        padding-left: 500px;
+        padding-right: 500px;
+      }
+      button {
+        display: inline-block;
+        content: justify-content-center;
+        margin: 20px 0px 15px 200px;
+        width: 250px;
+      }
+      #scan {
+        margin-left: 95px;
+      }
+
+      #generate {
+        margin-right: 95px;
+      }
+    </style>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"
+      integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body class="bg-body-tertiary">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+      <div class="container justify-content-center">
+        <a id="generate" class="navbar-brand" href="/">QR Code Generator</a>
+        <div id="scan" class="nav nav-pills flex-column flex-sm-row">
+          <a
+            class="flex-sm-fill text-sm-center nav-link active"
+            href="/qrscaner"
+            >QR Code Reader</a
+          >
+        </div>
+        <div id="scan" class="nav nav-pills flex-column flex-sm-row">
+          <a
+            class="flex-sm-fill text-sm-center nav-link active"
+            href="/getqrcam"
+            >QR Code Scaner</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <style>
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #reader {
+        width: 600px;
+      }
+      #result {
+        text-align: center;
+        font-size: 1.5rem;
+      }
+    </style>
+
+    <main>
+      <div id="reader"></div>
+      <div id="result"></div>
+    </main>
+
+    <script>
+      const scanner = new Html5QrcodeScanner("reader", {
+        // Scanner will be initialized in DOM inside element with id of 'reader'
+        qrbox: {
+          width: 250,
+          height: 250,
+        }, // Sets dimensions of scanning box (set relative to reader element width)
+        fps: 20, // Frames per second to attempt a scan
+      });
+
+      scanner.render(success, error);
+      // Starts scanner
+
+      function success(result) {
+        document.getElementById("result").innerHTML = `
+        <h2>Success!</h2>
+        <p name="worker_id">${result}</p>
+        
+        <button class="btn btn-primary"  type="submit">Confirm</button>
+          `;
+          
+      const form = document.createElement('form');
+      form.action = '/saveuser'; // Set the backend URL
+      form.method = 'post'; // Use 'get' or 'post' based on your backend API
+      
+      // Create an input element to hold the scanned data
+      const input = document.createElement('input');
+      // input.type = 'hidden'; // Hide the input element
+      input.name = 'worker_id'; // Set the field name for backend processing
+      input.value = result; // Set the scanned data as the value
+      
+      // Append the input element to the form
+      form.appendChild(input);
+      
+      // Create a submit button
+      const submitButton = document.createElement('button');
+      submitButton.type = 'submit';
+      submitButton.className = 'btn btn-primary';
+      submitButton.textContent = 'Confirm';
+      
+      // Append the submit button to the form
+      form.appendChild(submitButton);
+      
+      // Append the form to the result div
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = ''; // Clear previous content
+      resultDiv.appendChild(form);
+
+        scanner.clear();
+
+        document.getElementById("reader").remove();
+      }
+      function error(err) {
+        console.error(err);
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
