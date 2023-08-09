@@ -18,10 +18,10 @@ const register = async (req, res) => {
       },
     });
   
-    res.redirect("/qrcodedownload")
+    // res.redirect("/qrcodedownload")
     res.status(200).json({ msg: "Successfully created" });
   } catch (error) {
-    res.json({ msg: error.message });
+     res.json({ msg: error.message });
   }
 };
 
